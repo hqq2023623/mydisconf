@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disconf.web.mapper.EnvEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.disconf.web.entity.EnvEntity">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`, `name`, `description`, `creator`, `create_time`
+    </sql>
+
+    <insert id="insert" parameterType="com.disconf.web.entity.EnvEntity">
+        insert into t_env
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.disconf.web.entity.EnvEntity">
+        update t_env
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_env
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_env
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_env
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="selectByParam" parameterType="com.disconf.web.entity.EnvEntity" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_env
+        <include refid="where_by_param" />
+    </select>
+
+    <select id="selectCountByParam" parameterType="com.disconf.web.entity.EnvEntity" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM t_env
+        <include refid="where_by_param" />
+    </select>
+
+    <sql id="where_by_param">
+        <trim prefix="WHERE" prefixOverrides="AND | OR " suffixOverrides=",">
+            <if test="name != null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null">
+                AND description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="creator != null">
+                AND creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+</mapper>

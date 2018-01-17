@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.disconf</groupId>
+    <artifactId>mydisconf</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>disconf-web</module>
+        <module>disconf-core</module>
+        <module>disconf-client</module>
+    </modules>
+
+    <properties>
+        <disconf.version>1.0-SNAPSHOT</disconf.version>
+        <disconf-core.version>1.0-SNAPSHOT</disconf-core.version>
+        <disconf-client.version>1.0-SNAPSHOT</disconf-client.version>
+        <disconf-web.version>1.0-SNAPSHOT</disconf-web.version>
+
+
+        <!--输出的war包名称-->
+        <warName>logistics</warName>
+        <jdk.version>1.8</jdk.version>
+        <!--需要在全局配置一个 JAVA_HOME的 property -->
+        <javac.path>${JAVA_HOME}/bin/javac</javac.path>
+
+        <disconf.version>2.6.36</disconf.version>
+        <!--<spring.version>5.0.2.RELEASE</spring.version>-->
+        <spring.version>4.3.2.RELEASE</spring.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.13.0</mockito.version>
+        <fastjson.version>1.2.44</fastjson.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.1.3</logback.version>
+        <logback-spring.version>0.1.1</logback-spring.version>
+        <tbschedule.version>3.2.19-SNAPSHOT</tbschedule.version>
+        <zookeeper.version>3.4.11</zookeeper.version>
+        <mybatis.version>3.4.5</mybatis.version>
+        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+        <mysql.version>5.1.45</mysql.version>
+        <druid.version>1.1.6</druid.version>
+        <commons-lang.version>3.7</commons-lang.version>
+        <aopalliance.version>1.0</aopalliance.version>
+        <aspectjrt.version>1.8.13</aspectjrt.version>
+        <freemarker.version>2.3.23</freemarker.version>
+        <!--zk3.4用2.12.0 ， zk3.5用 3.x+ -->
+        <curator.version>2.12.0</curator.version>
+        <shiro.version>1.4.0</shiro.version>
+        <jedis.version>2.9.0</jedis.version>
+        <spring-data-redis.version>1.7.2.RELEASE</spring-data-redis.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <commons-io.version>2.6</commons-io.version>
+        <guava.version>23.6-jre</guava.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.disconf</groupId>
+                <artifactId>disconf-client</artifactId>
+                <version>${disconf-client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.disconf</groupId>
+                <artifactId>disconf-core</artifactId>
+                <version>${disconf-core.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>${aopalliance.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectjrt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectjrt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--logging-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.logback-extensions</groupId>
+                <artifactId>logback-ext-spring</artifactId>
+                <version>${logback-spring.version}</version>
+            </dependency>
+
+
+            <!-- Mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+
+            <!--shiro-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring-data-redis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+
+
+
+        </dependencies>
+
+    </dependencyManagement>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <warName>${warName}</warName>
+                        <webResources>
+                            <resource>
+                                <filtering>true</filtering>
+                                <directory>src/main/webapp</directory>
+                                <includes>
+                                    <include>**/web.xml</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
+                </plugin>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20.1</version>
+                    <configuration>
+                        <!--方法级多线程跑junit-->
+                        <parallel>methods</parallel>
+                        <threadCount>10</threadCount>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.mybatis.generator</groupId>
+                    <artifactId>mybatis-generator-maven-plugin</artifactId>
+                    <version>1.3.6</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <overwrite>true</overwrite>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <compilerVersion>${jdk.version}</compilerVersion>
+                    <!--javac的路径，可以在全局的settings中添加一个profile来设置环境变量-->
+                    <executable>${javac.path}</executable>
+                    <verbose>true</verbose>
+                    <!--开启一个新进程来编译-->
+                    <fork>true</fork>
+                    <!--fork==true时传入参数-->
+                    <!-- -Xlint:all 表示开启所有警告 -->
+                    <!--<compilerArgument>-Xlint:all</compilerArgument>-->
+                </configuration>
+            </plugin>
+            <!-- 生成javadoc文档包的插件 -->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>date</name>
+                            <placement>a</placement>
+                            <head>日期</head>
+                        </tag>
+                        <tag>
+                            <name>ClassName</name>
+                            <placement>a</placement>
+                            <head>类名</head>
+                        </tag>
+                    </tags>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+            <!-- 生成sources源码包的插件 -->
+           <!-- <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+        </plugins>
+
+
+    </build>
+
+
+</project>

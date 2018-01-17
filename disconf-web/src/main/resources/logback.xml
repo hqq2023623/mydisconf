@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <jmxConfigurator/>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%c]-[%p] %m%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/data/log/test.log</File>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%c]-[%p] %m%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>10</maxIndex>
+            <FileNamePattern>/data/log/logistics.log.%i</FileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>300MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <logger name="com.taobao">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.mybatis">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.apache">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.apache.zookeeper">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="net.sf">
+        <level value="ERROR"/>
+    </logger>
+
+
+    <root level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="R"/>
+    </root>
+</configuration>
+

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disconf.web.mapper.PermissionEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.disconf.web.entity.PermissionEntity">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="enable" jdbcType="BIT" property="enable" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="updater" jdbcType="VARCHAR" property="updater" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`, `name`, `description`, `parent_id`, `parent_name`, `url`, `enable`, `creator`,
+        `updater`, `create_time`, `update_time`
+    </sql>
+
+    <insert id="insert" parameterType="com.disconf.web.entity.PermissionEntity">
+        insert into t_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="parentName != null">
+                parent_name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="updater != null">
+                updater,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="parentName != null">
+                #{parentName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=BIT},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.disconf.web.entity.PermissionEntity">
+        update t_permission
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="parentName != null">
+                parent_name = #{parentName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=BIT},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_permission
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_permission
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_permission
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="selectByParam" parameterType="com.disconf.web.entity.PermissionEntity" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_permission
+        <include refid="where_by_param" />
+    </select>
+
+    <select id="selectCountByParam" parameterType="com.disconf.web.entity.PermissionEntity" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM t_permission
+        <include refid="where_by_param" />
+    </select>
+
+    <sql id="where_by_param">
+        <trim prefix="WHERE" prefixOverrides="AND |OR " suffixOverrides=",">
+            <if test="name != null">
+                name like CONCAT(#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="description != null">
+                AND description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId,jdbcType=BIGINT}
+            </if>
+            <if test="parentName != null">
+                AND parent_name = #{parentName,jdbcType=VARCHAR}
+            </if>
+            <if test="url != null">
+                AND url = #{url,jdbcType=VARCHAR}
+            </if>
+            <if test="enable != null">
+                AND enable = #{enable,jdbcType=BIT}
+            </if>
+            <if test="creator != null">
+                AND creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="updater != null">
+                AND updater = #{updater,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <select id="search" resultType="com.disconf.web.entity.PermissionEntity" parameterType="com.disconf.web.search.PermissionSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from t_permission
+        <trim prefix="WHERE" prefixOverrides="AND | OR " suffixOverrides=",">
+            <if test="name != null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+
+
+
+</mapper>

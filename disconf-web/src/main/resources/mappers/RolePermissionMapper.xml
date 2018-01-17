@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disconf.web.mapper.RolePermissionMapper">
+    <resultMap id="BaseResultMap" type="com.disconf.web.entity.RolePermission">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_desc" jdbcType="VARCHAR" property="roleDesc"/>
+        <result column="permission_id" jdbcType="BIGINT" property="permissionId"/>
+        <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+        <result column="permission_desc" jdbcType="VARCHAR" property="permissionDesc"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, role_id, role_name, role_desc, permission_id, permission_name, permission_desc, url,
+    creator, updater, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_role_permission
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_role_permission
+        where role_id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="getPermissionRoleBypermissionId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="Base_Column_List" />
+        from t_role_permission
+        where  permission_id = #{permissionId}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_role_permission order by id desc
+    </select>
+    <select id="getPermisionRoleByRoleIdAndPermissionId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_role_permission
+        where  role_id = #{roleId} and permission_id=#{permissionId}
+    </select>
+    <select id="getPermissionListByRoleId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="Base_Column_List" />
+        from t_role_permission
+        where  role_id = #{roleId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deletPermissionRoleByRoleId">
+        delete from t_role_permission where role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" parameterType="com.disconf.web.entity.RolePermission">
+        insert into t_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="roleDesc != null">
+                role_desc,
+            </if>
+            <if test="permissionId != null">
+                permission_id,
+            </if>
+            <if test="permissionName != null">
+                permission_name,
+            </if>
+            <if test="permissionDesc != null">
+                permission_desc,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="updater != null">
+                updater,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null">
+                #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null">
+                #{permissionId,jdbcType=BIGINT},
+            </if>
+            <if test="permissionName != null">
+                #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionDesc != null">
+                #{permissionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.disconf.web.entity.RolePermission">
+        update t_role_permission
+        <set>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null">
+                role_desc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null">
+                permission_id = #{permissionId,jdbcType=BIGINT},
+            </if>
+            <if test="permissionName != null">
+                permission_name = #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionDesc != null">
+                permission_desc = #{permissionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{permissionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.disconf.web.entity.RolePermission">
+    update t_role_permission
+    set role_id = #{roleId,jdbcType=BIGINT},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      role_desc = #{roleDesc,jdbcType=VARCHAR},
+      permission_id = #{permissionId,jdbcType=BIGINT},
+      permission_name = #{permissionName,jdbcType=VARCHAR},
+      permission_desc = #{permissionDesc,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      updater = #{updater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateByRoleId" parameterType="com.disconf.web.entity.RolePermission" >
+        update t_role_permission
+        <set >
+            <if test="roleId != null" >
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null" >
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null" >
+                role_desc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null" >
+                permission_id = #{permissionId,jdbcType=BIGINT},
+            </if>
+            <if test="permissionName != null" >
+                permission_name = #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionDesc != null" >
+                permission_desc = #{permissionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null" >
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null" >
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where role_id = #{roleId,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateByPermissionId" parameterType="com.disconf.web.entity.RolePermission" >
+        update t_role_permission
+        <set >
+            <if test="roleId != null" >
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="roleName != null" >
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null" >
+                role_desc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null" >
+                permission_id = #{permissionId,jdbcType=BIGINT},
+            </if>
+            <if test="permissionName != null" >
+                permission_name = #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionDesc != null" >
+                permission_desc = #{permissionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null" >
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null" >
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where permission_id = #{permissionId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

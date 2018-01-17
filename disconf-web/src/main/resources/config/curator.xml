@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 重连策略 -->
+    <bean id="retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+        <!-- 间隔时间基数 -->
+        <constructor-arg name="baseSleepTimeMs" value="${curator.retry.baseSleepTimeMs}" />
+        <!-- 重连策略 -->
+        <constructor-arg name="maxRetries" value="${curator.retry.maxRetries}" />
+    </bean>
+
+    <bean id="curatorFramework" class="org.apache.curator.framework.CuratorFrameworkFactory" factory-method="newClient" init-method="start">
+        <constructor-arg name="connectString" value="${zookeeper.hosts}" />
+        <!-- sessionTimeoutMs会话超时时间，单位为毫秒。默认是60000ms  -->
+        <constructor-arg name="sessionTimeoutMs" value="${curator.factory.sessionTimeoutMs}" />
+        <!-- connectionTimeoutMs连接创建超时时间，单位毫秒，默认15000ms -->
+        <constructor-arg name="connectionTimeoutMs" value="${curator.factory.connectionTimeoutMs}" />
+        <constructor-arg name="retryPolicy" ref="retryPolicy" />
+    </bean>
+
+    <!--应用场景一：查看当前Client是不是主机-->
+    <bean id="leaderCheck" class="com.disconf.web.zookeeper.LeaderDispatch" scope="singleton" init-method="init">
+        <constructor-arg name="curatorFramework" ref="curatorFramework" />
+        <constructor-arg name="path" value="/disconf/leader" />
+    </bean>
+
+    <!--&lt;!&ndash;应用场景二：监控并同步所有Client的数据&ndash;&gt;
+    <bean id="publishAdFlush" class="com.chinaso.modules.ad.job.PublishAdFlush" scope="singleton" init-method="init">
+        <constructor-arg index="0" ref="curatorFramework" />
+        <constructor-arg index="1" value="${sas.zookeeper.publish}" />
+    </bean>
+-->
+
+
+
+</beans>

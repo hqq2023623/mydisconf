@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="com.disconf.client"/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--启动和监控zk，扫描Disconf注解缓存起来-->
+    <bean id="disconfMgrBean" class="com.disconf.client.DisconfMgrBean" destroy-method="destroy">
+        <constructor-arg name="scanPackage" value="com.disconf.client"/>
+    </bean>
+
+    <!--把Disconf注解的数据注入到实体类-->
+    <bean id="disconfMgrBean2" class="com.disconf.client.DisconfMgrBeanSecond" destroy-method="destroy" init-method="init"/>
+
+    <bean id="configproperties_disconf"
+          class="com.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propertyConfigurer"
+          class="com.disconf.client.addons.properties.DefaultPropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="propertiesArray">
+            <list>
+                <ref bean="configproperties_disconf"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.disconf.client.store.aspect.DisconfAspectJ"/>
+
+</beans>

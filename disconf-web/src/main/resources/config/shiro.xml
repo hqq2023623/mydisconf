@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="cacheManager" class="com.disconf.web.shiro.CustomShiroCacheManager">
+		<property name="redisTemplate" ref="redisTemplate"/>
+	</bean>
+
+	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
+	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg name="name" value="${shiro.cookie.name}" />
+		<property name="path" value="/" />
+		<property name="httpOnly" value="true"/>
+	</bean>
+
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="sessionDAO" ref="redisShiroSessionDAO" />
+		<!-- 会话过期时间-->
+		<property name="globalSessionTimeout" value="10800000" />
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionValidationInterval" value="60000" />
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<property name="sessionIdCookie" ref="sharesession" />
+		<property name="sessionListeners" >
+			<bean class="com.disconf.web.listener.ShiroSessionListener"/>
+		</property>
+	</bean>
+
+	<bean id="redisShiroSessionDAO" class="com.disconf.web.shiro.RedisShiroSessionDAO">
+		<property name="redisTemplate" ref="redisTemplate"/>
+	</bean>
+
+	<bean id="jedisShiroCache" class="com.disconf.web.shiro.JedisShiroCache">
+		<constructor-arg index="0" value="shiro-cacheName"/>
+		<constructor-arg index="1" ref="redisTemplate"/>
+	</bean>
+
+	<bean id="serializableSimpleByteSource" class="com.disconf.web.util.SerializableSimpleByteSource"/>
+
+	<!-- 用户Realm -->
+	<bean id="userRealm" class="com.disconf.web.shiro.UserRealm">
+		<property name="cachingEnabled" value="true"/>
+		<property name="credentialsMatcher" ref="credentialsMatcher"/>
+	</bean>
+
+	<!-- 配置权限管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="sessionManager" ref="sessionManager"/>
+	</bean>
+
+	<!-- 基于Form表单的身份验证过滤器 -->
+	<bean id="authcFilter" class="com.disconf.web.shiro.DisconfFormAuthenticationFilter">
+		<property name="usernameParam" value="username"/>
+		<property name="passwordParam" value="password"/>
+		<property name="rememberMeParam" value="rememberMe"/>
+		<property name="failureKeyAttribute" value="shiroLoginFailure"/>
+	</bean>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<property name="loginUrl" value="/login"/>
+		<property name="successUrl" value="/index"/>
+		<property name="unauthorizedUrl" value="/auth/unauthorized"/>
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="authcFilter"/>
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/api/** = anon
+				/static/** = anon
+				/error/** = anon
+				/auth/logout = logout
+				/= authc
+				/index= authc
+				/login = authc
+			</value>
+		</property>
+	</bean>
+
+	<!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+
+</beans>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disconf.web.mapper.AppEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.disconf.web.entity.AppEntity">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="emails" jdbcType="VARCHAR" property="emails"/>
+        <result column="group_id" jdbcType="BIGINT" property="groupId"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="enable" jdbcType="BIT" property="enable"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`, `name`, `description`, `emails`, `group_id`, `group_name`, `enable`, `creator`,
+        `updater`, `create_time`, `update_time`
+    </sql>
+
+    <insert id="insert" parameterType="com.disconf.web.entity.AppEntity">
+        insert into t_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="emails != null">
+                emails,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="updater != null">
+                updater,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="emails != null">
+                #{emails,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=BIT},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.disconf.web.entity.AppEntity">
+        update t_app
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="emails != null">
+                emails = #{emails,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=BIT},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_app
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_app
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_app
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="selectByParam" parameterType="com.disconf.web.entity.AppEntity" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_app
+        <include refid="where_by_param"/>
+    </select>
+
+    <select id="selectCountByParam" parameterType="com.disconf.web.entity.AppEntity" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM t_app
+        <include refid="where_by_param"/>
+    </select>
+
+    <sql id="where_by_param">
+        <trim prefix="WHERE" prefixOverrides="AND |OR " suffixOverrides=",">
+            <if test="name != null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null">
+                AND description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="emails != null">
+                AND emails = #{emails,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null">
+                AND group_id = #{groupId,jdbcType=BIGINT}
+            </if>
+            <if test="groupName != null">
+                AND group_name = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="enable != null">
+                AND enable = #{enable,jdbcType=BIT}
+            </if>
+            <if test="creator != null">
+                AND creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="updater != null">
+                AND updater = #{updater,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <select id="search" resultMap="BaseResultMap" parameterType="com.disconf.web.search.AppSearch">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_app
+        <trim prefix="WHERE" prefixOverrides="AND |OR " suffixOverrides=",">
+            <if test="groupName != null">
+                AND group_name = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

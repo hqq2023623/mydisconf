@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disconf.web.mapper.UserEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.disconf.web.entity.UserEntity">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="enable" jdbcType="BIT" property="enable"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_name, password, real_name, phone, email, enable, ip, creator, updater, create_time,
+    update_time
+  </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        order by id DESC
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from t_user where user_name = #{userName}
+    </select>
+
+    <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.disconf.web.search.UserSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        <where>
+            <if test="userName != null">
+                user_name like CONCAT(#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="realName != null">
+                AND real_name like CONCAT(#{realName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="selectCountByParam" resultType="int" parameterType="com.disconf.web.search.UserSearch">
+        select count(id)
+        from t_user
+        <where>
+            <if test="userName != null">
+                user_name like CONCAT(#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="realName != null">
+                AND real_name like CONCAT(#{realName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by id DESC
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from t_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <insert id="insert" parameterType="com.disconf.web.entity.UserEntity">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="updater != null">
+                updater,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=BIT},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.disconf.web.entity.UserEntity">
+        update t_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=BIT},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updater != null">
+                updater = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>
