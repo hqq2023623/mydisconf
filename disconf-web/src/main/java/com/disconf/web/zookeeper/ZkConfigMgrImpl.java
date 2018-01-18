@@ -130,7 +130,6 @@ public class ZkConfigMgrImpl implements ZkConfigMgr {
         for (String child : children) {
 
             String nextName = groupName + "/" + child;
-            ;
 
             String node = StringUtils.substringAfterLast(nextName, "/");
 

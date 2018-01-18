@@ -14,7 +14,7 @@ public class Locker {
     //主要实现类
     private ReentrantLock _lock = new ReentrantLock();
     //表示为已lock状态，需要解锁
-    private Lock _unlock = new Lock();
+    private Lock _unlock = new Unlock();
 
     public Lock lock() {
         if (!_lock.isHeldByCurrentThread()) {
